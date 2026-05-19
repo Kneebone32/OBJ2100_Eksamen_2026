@@ -68,11 +68,22 @@ public class RegistratorConsoleView {
 
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
+
+        //String respons = controller.submit(type,hendelseInput);
     }
 
     //Registrator kan kansellere en henvendelse
     private void kansellerHenvendelse(){
         System.out.print("Hendelse_id som skal kanselleres: ");
         int id = Integer.parseInt(scanner.nextLine());
+    }
+
+    //Registrator kan sjekke status for en henvendelse.
+    private void sjekkHenvendelseStatus(){
+        System.out.println("Henvendelse_id du vil sjekke: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        //String svar = controller.sjekkStatus(id);
+        //System.out.println(svar);
     }
 }
