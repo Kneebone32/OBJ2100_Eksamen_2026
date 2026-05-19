@@ -56,6 +56,19 @@ public class ServerMain {
             return henvendelseVenteListe.take();
         }
 
+        public synchronized HenvendelseStatus hentHenvendelseStatus(int id) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            return henvendelse != null ? henvendelse.getStatus() : null;
+        }
+
+        public synchronized void kansellerHenvendelse(int id) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
+                henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
+                henvendelseVenteListe.remove(id);
+            }
+        }
+        
         public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
             // Husk å legg til en sjekk for at rollen er korrekt før du oppdaterer statusen!!
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
