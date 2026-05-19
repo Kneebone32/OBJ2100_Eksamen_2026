@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Scanner;
 
 public class AgentConsoleView {
@@ -37,11 +39,18 @@ public class AgentConsoleView {
     private void fullforHenvendelse(){
         System.out.print("Hendelse_id som skal fullføres: ");
         int id = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Kommentar: ");
+        String kommentar = scanner.nextLine();
+
+        //String respons = controller.fullfor(id,kommentar);
+    }
+    //Agent henter neste ledige henvendelse
+    private void hentNyHenvendelse() {
+        // String respons = controller.hentNyHenvendelse(agentId);
+        // System.out.println(respons);
     }
 
-    //Agent henter en ny henvendelse
-    private void hentNyHenvendelse(){
-        System.out.print("Hent ny hendelse: ");
-        int id = Integer.parseInt(scanner.nextLine());
-    }
+
 }
+
