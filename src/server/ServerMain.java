@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import common.*;
+import common.enums.HenvendelseStatus;
 
 // Hovedklassen for serveren som håndterer innkommende klienttilkoblinger
 public class ServerMain {
@@ -68,9 +69,8 @@ public class ServerMain {
                 henvendelseVenteListe.remove(id);
             }
         }
-        
+
         public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
-            // Husk å legg til en sjekk for at rollen er korrekt før du oppdaterer statusen!!
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null) {
                 henvendelse.setStatus(nyStatus);
