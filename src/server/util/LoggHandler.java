@@ -1,6 +1,6 @@
 package server.util;
 
-import common.HendelseLogg;
+import common.HendelseLoggLinje;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ public class LoggHandler {
 
 
     //Funksjon for å skrive en logglinje til fil. Bruker synchronized for trådsikker skriving
-    public synchronized static String skrivLoggLinje(HendelseLogg hendelse) throws NullPointerException{
+    public synchronized static String skrivLoggLinje(HendelseLoggLinje hendelse) throws NullPointerException{
         File fil = new File("logg/henvendelseLogg.txt");
         File loggmappe = fil.getParentFile(); 
 
