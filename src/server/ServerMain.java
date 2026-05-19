@@ -8,8 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import common.*;
 
-import common.Henvendelse;
-
 // Hovedklassen for serveren som håndterer innkommende klienttilkoblinger
 public class ServerMain {
     public static final int PORT = 11111;
@@ -58,5 +56,15 @@ public class ServerMain {
             return henvendelseVenteListe.take();
         }
 
+        public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
+            // Husk å legg til en sjekk for at rollen er korrekt før du oppdaterer statusen!!
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null) {
+                henvendelse.setStatus(nyStatus);
 
+                if (nyStatus == HenvendelseStatus.KANSELLERT) {
+                    henvendelseVenteListe.remove(id);
+                }
+            }
+        }
 }
