@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import common.*;
-import common.enums.HenvendelseStatus;
+import common.enums.*;
+import server.util.LoggHandler;
 
 // Hovedklassen for serveren som håndterer innkommende klienttilkoblinger
 public class ServerMain {
@@ -17,6 +18,7 @@ public class ServerMain {
     private final LinkedBlockingQueue<Integer> henvendelseVenteListe = new LinkedBlockingQueue<>();
 
     private final AtomicInteger nesteHenvendelseID = new AtomicInteger(1);
+    private final AtomicInteger nesteLoggID = new AtomicInteger(1);
 
     public static void main(String[] args) {
         new ServerMain().start();
@@ -49,6 +51,12 @@ public class ServerMain {
             return id;
         }
 
+        public synchronized void loggHendelse(String referanse, String innhold) {
+            int id = nesteLoggID.getAndIncrement();
+            HendelseLoggLinje hendelseLogg = new HendelseLoggLinje(id, referanse, innhold);
+            LoggHandler.skrivLoggLinje(hendelseLogg);
+        }
+
         public synchronized Henvendelse hentHenvendelse(int id) {
             return henvendelseRegistrer.get(id);
         }
@@ -62,12 +70,14 @@ public class ServerMain {
             return henvendelse != null ? henvendelse.getStatus() : null;
         }
 
-        public synchronized void kansellerHenvendelse(int id) {
+        public synchronized SvarKode kansellerHenvendelse(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
                 henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
                 henvendelseVenteListe.remove(id);
+                return SvarKode.SUKSESS;
             }
+            return SvarKode.ERROR;
         }
 
         public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
