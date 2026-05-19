@@ -34,11 +34,13 @@ public class RegistratorConsoleView {
     }
 
 
+    //Registrator oppretter en ny henvendelse.
     private void opprettHenvendelse() {
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
     }
 
+    //Registrator kan kansellere en henvendelse
     private void kansellerHenvendelse(){
         System.out.print("Hendelse_id som skal kanselleres: ");
         int id = Integer.parseInt(scanner.nextLine());
