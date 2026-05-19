@@ -21,11 +21,11 @@ public class Melding implements Serializable {
         return kommando;
     }
 
-    public Object getPayload() {
+    public Object getInnhold() {
         return innhold;
     }
 
-    public String getResponseStatus() {
+    public String getResponsStatus() {
         return responsStatus;
     }
 }
