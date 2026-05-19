@@ -33,12 +33,13 @@ public class AgentConsoleView {
         }
     }
 
-
+    //Agent setter en hendelse_id til fullført
     private void fullforHenvendelse(){
         System.out.print("Hendelse_id som skal fullføres: ");
         int id = Integer.parseInt(scanner.nextLine());
     }
 
+    //Agent henter en ny henvendelse
     private void hentNyHenvendelse(){
         System.out.print("Hent ny hendelse: ");
         int id = Integer.parseInt(scanner.nextLine());
