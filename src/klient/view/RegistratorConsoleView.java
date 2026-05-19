@@ -34,8 +34,38 @@ public class RegistratorConsoleView {
     }
 
 
-    //Registrator oppretter en ny henvendelse.
+    /*Registrator oppretter en ny henvendelse. Her velger registrator
+      en kategori og skriver en beskrivelse om henvendelsen.
+     */
     private void opprettHenvendelse() {
+        System.out.println("Velg type henvendelse");
+        System.out.println("1. Nettverksfeil");
+        System.out.println("2. Serverfeil");
+        System.out.println("3. Klientfeil");
+
+        System.out.print("Valg: ");
+        String valg = scanner.nextLine();
+
+
+        HenvendelseType type;
+        switch (valg){
+            case "1":
+                type = HenvendelseType.Nettverksfeil;
+                break;
+
+            case "2":
+                type = HenvendelseType.Serverfeil;
+                break;
+
+            case "3":
+                type = HenvendelseType.Klientfeil;
+                break;
+
+            default:
+                System.out.println("Ugyldig valg");
+                return;
+        }
+
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
     }
