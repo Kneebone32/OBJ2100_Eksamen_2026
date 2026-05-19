@@ -4,5 +4,5 @@ public enum HenvendelseStatus {
     OPPRETTET,
     KANSELLERT,
     BEHANDLER,
-    FULLFØRT
+    FULLFØRT,
 }
