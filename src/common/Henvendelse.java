@@ -2,6 +2,9 @@ package common;
 
 import java.io.Serializable;
 
+import common.enums.HenvendelseStatus;
+import common.enums.HenvendelseType;
+
 //Denne klassen representerer en henvendelse som kan bli
 //opprettet av en klient og sendt til serveren.
 //Henvendelsen skal ha en unik ID, en status, en type og innholdet i henvendelse.

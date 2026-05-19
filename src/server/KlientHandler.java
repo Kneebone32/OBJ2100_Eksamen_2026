@@ -1,5 +1,9 @@
 package server;
 import common.*;
+import common.enums.HenvendelseStatus;
+import common.enums.Kommando;
+import common.enums.SvarKode;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -68,6 +72,6 @@ public class KlientHandler implements Runnable {
 
 
     private boolean validerRolle(){
-        
+
     }
 }

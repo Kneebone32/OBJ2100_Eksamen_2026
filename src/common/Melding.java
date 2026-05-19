@@ -2,6 +2,10 @@ package common;
 
 import java.io.Serializable;
 
+import common.enums.HenvendelseType;
+import common.enums.Kommando;
+import common.enums.SvarKode;
+
 //Klasse for meldinger som skal bli sendt mellom klient og server. 
 public class Melding implements Serializable {
     private final Kommando kommando;
