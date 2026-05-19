@@ -2,12 +2,16 @@ package common;
 
 import java.io.Serializable;
 
+//Denne klassen representerer en henvendelse som kan bli
+//opprettet av en klient og sendt til serveren.
+//Henvendelsen skal ha en unik ID, en status, en type og innholdet i henvendelse.
 public class Henvendelse implements Serializable {
     private final int henvendelseID;
     private HenvendelseStatus status;
     private HenvendelseType type;
     private String henvendelseInnhold;
 
+    //Konstruktøren med de nødvendige parameterne for å opprette en henvendelse.
     public Henvendelse(int henvendelseID, HenvendelseStatus status, HenvendelseType type, String henvendelseInnhold) {
         this.henvendelseID = henvendelseID;
         this.status = HenvendelseStatus.OPPRETTET;
@@ -15,10 +19,12 @@ public class Henvendelse implements Serializable {
         this.henvendelseInnhold = henvendelseInnhold;
     }
 
+    //Metode for å oppdatere innholdet som er i henvendelsen.
     static void henvendelseInnhold(Henvendelse henvendelse, String innhold) {
         henvendelse.henvendelseInnhold = innhold;
     }
 
+    //Gettere og settere for å hente ut og oppdatere informasjonen i henvendelsen.
     public int getHenvendelseID() {
         return henvendelseID;
     }

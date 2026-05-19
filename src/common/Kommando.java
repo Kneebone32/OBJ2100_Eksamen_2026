@@ -1,5 +1,6 @@
 package common;
 
+//Enum som holder de forksjellige kommandoene som kan sendes mellom klient og server
 public enum Kommando {
     OPPRETT_HENVENDELSE,
     HENT_HENVENDELSE_STATUS,

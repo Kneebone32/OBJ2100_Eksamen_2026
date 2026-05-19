@@ -2,6 +2,8 @@ package common;
 
 import java.io.Serializable;
 
+//Klasse for registratorer hvor vi har oppgitt registratorID og navn.
+//Klassen implementerer Serializable slik at den kan bli sendt mellom klient og server.
 public class Registrator implements Serializable {
     private final int registratorID;
     private final String navn;
