@@ -133,8 +133,8 @@ public class KlientHandler implements Runnable {
         if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle())){
             return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
         }
-        
-        SvarKode svarKode = server.settHenvendelseFullført(forespørsel.getHenvendelseID());
+        int id = (int) forespørsel.getInnhold();
+        SvarKode svarKode = server.settHenvendelseFullført(id);
         if(svarKode == SvarKode.ERROR){
             return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
         }
