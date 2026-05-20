@@ -1,6 +1,8 @@
 package server;
 import common.*;
 import common.enums.HenvendelseStatus;
+import common.enums.HenvendelseType;
+import common.enums.KlientRolle;
 import common.enums.Kommando;
 import common.enums.SvarKode;
 
@@ -33,45 +35,124 @@ public class KlientHandler implements Runnable {
             System.out.println("Feil ved deserialisering av melding: " + e.getMessage());
         }
     }
-        //TODO: unntakshåntering på typetvang
+
+        //TODO: unntakshåndering! 
     private Melding håndterForespørsel(Melding forespørsel) throws InterruptedException {
         switch (forespørsel.getKommando()) {
             case OPPRETT_HENVENDELSE:
-                Henvendelse nyHenvendelse = (Henvendelse) forespørsel.getInnhold();
-                int id = server.opprettHenvendelse(nyHenvendelse);
-                return new Melding(Kommando.OPPRETT_HENVENDELSE, null, SvarKode.SUKSESS, id);
+                opprettHenvendelse(forespørsel);
 
             case HENT_HENVENDELSE_STATUS:
-                int hentId = (int) forespørsel.getInnhold();
-                HenvendelseStatus henvendelseStatus = server.hentHenvendelseStatus(hentId);
-                return new Melding(henvendelseStatus, SvarKode.SUKSESS);
-
-
+                hentHenveldelseStatus(forespørsel);
 
             case KANSELLER_HENVENDELSE:
-                int henvendelseID = (int) forespørsel.getInnhold();
-                SvarKode svarKode = server.kansellerHenvendelse();
-                if(svarKode == SvarKode.ERROR){
-                    return new Melding("Kunne ikke kansellere henvendelse", svarKode);
-                }
-                return new Melding("Henvendelse ble kansellert", svarKode);
+                kansellerHenvendelse(forespørsel);
 
             case HENT_LEDIG_HENVENDELSE:
-                int nesteHenvendelseID = server.hentNesteHenvendelseID();
-                Henvendelse henvendelse = server.hentHenvendelse(nesteHenvendelseID);
-                return new Melding(henvendelse, SvarKode.SUKSESS);
+                hentLedigHenvendelse(forespørsel);
 
             case SETT_HENVENDELSE_FULLFØRT:
-            
+                settHenvendelseFullført(forespørsel);
+
+            case REGISTRER_KLIENT:
+                registrerKlient(forespørsel);
+                
             default: 
-                return new Melding("Ukjent forespørsel", SvarKode.ERROR);
+                return Melding.svar("Ukjent forespørsel", SvarKode.ERROR);
 
         }
         
     }
 
+    //Oppretter en Henvendelse og returnerer id. Kun for Registrator
+    private Melding opprettHenvendelse(Melding forespørsel){
+        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()))
+            return Melding.svar("Kunne ikke opprette henvendelse", SvarKode.ERROR);
 
-    private boolean validerRolle(){
+        String innhold = (String) forespørsel.getInnhold();
+        HenvendelseType henvendelseType = forespørsel.getHenvendelseType();
+        int id = server.opprettHenvendelse(innhold, henvendelseType);
 
+        return Melding.svarMedID("Henvendelse opprettet", SvarKode.SUKSESS, id);
     }
+
+    //Henter henvendelsesStatus på en henvendelse. Kun for Registrator
+    private Melding hentHenveldelseStatus(Melding forespørsel){
+        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()) || forespørsel.getInnhold() == null){
+            return Melding.svar("Kunne ikke hente status", SvarKode.ERROR);
+        }
+
+        int hentId = (int) forespørsel.getInnhold();
+        HenvendelseStatus henvendelseStatus = server.hentHenvendelseStatus(hentId);
+
+        if (henvendelseStatus == null){
+            return Melding.svar("Kunne ikke hente status", SvarKode.ERROR);
+        }
+
+        return Melding.svar(henvendelseStatus, SvarKode.SUKSESS);
+    }
+
+
+    //Kansellerer en henvendelse. Kun for Registrator og hvis status == OPPRETTET
+    private Melding kansellerHenvendelse(Melding forespørsel){
+        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()))
+            return Melding.svar("Kunne ikke kansellere status", SvarKode.ERROR);
+        int henvendelseID = (int) forespørsel.getInnhold();
+        SvarKode svarKode = server.kansellerHenvendelse(henvendelseID);
+        if(svarKode == SvarKode.ERROR){
+            return Melding.svar("Kunne ikke kansellere henvendelse", svarKode);
+        }
+        return Melding.svar("Henvendelse ble kansellert", svarKode);
+    }
+
+    //Henter neste ledige Henvendelse fra arbeidskøen. Kun for Agent
+    private Melding hentLedigHenvendelse(Melding forespørsel){
+        Henvendelse henvendelse = null;
+        try {
+            if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()))
+                return Melding.svar("Kunne ikke hente henvendelse", SvarKode.ERROR);
+            Integer nesteHenvendelseID = server.hentNesteHenvendelseID();
+            henvendelse = server.hentHenvendelse(nesteHenvendelseID);
+                
+        } catch (InterruptedException e) {
+            return Melding.svar("Kunne ikke hente henvendelse", SvarKode.ERROR);
+        }
+
+        if(henvendelse == null){
+            return Melding.svar("Kunne ikke hente henvendelse", SvarKode.ERROR);
+        }
+        return Melding.svar(henvendelse, SvarKode.SUKSESS);
+    }
+
+    //Setter en henvendelse til fullført. Kun for Agent og hvis status == BEHANDLER
+    private Melding settHenvendelseFullført(Melding forespørsel){
+        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()))
+            return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
+
+        
+
+        return Melding.svar("Henvendelse ble satt til FULLFØRT", SvarKode.SUKSESS);
+    }
+
+    //Registrerer en ny tilkoblet Klient.
+    private Melding registrerKlient(Melding forespørsel){
+        KlientInfo klientInfo = (KlientInfo) forespørsel.getInnhold();
+        server.registrerKlient(klientInfo);
+            return Melding.svar("Klient ble opprettet", SvarKode.SUKSESS);
+    }
+
+    //Metode for å validere rollen til Klienten
+    private boolean validerRolle(Kommando kommando, KlientRolle klientRolle){
+        return switch (kommando) {
+            case OPPRETT_HENVENDELSE, HENT_HENVENDELSE_STATUS, KANSELLER_HENVENDELSE, REGISTRER_KLIENT -> klientRolle == KlientRolle.REGISTRATOR;
+            case HENT_LEDIG_HENVENDELSE, SETT_HENVENDELSE_FULLFØRT -> klientRolle == KlientRolle.AGENT;
+            default -> false;
+        };
+    }
+
 }
+
+
+
+
+//TODO: unntakshåntering på typetvang
