@@ -134,7 +134,11 @@ public class KlientHandler implements Runnable {
             return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
         }
         
-        server.oppdaterHenvendelseStatus(forespørsel.getHenvendelseID(), HenvendelseStatus.FULLFØRT);
+        SvarKode svarKode = server.settHenvendelseFullført(forespørsel.getHenvendelseID());
+        if(svarKode == SvarKode.ERROR){
+            return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
+        }
+
         return Melding.svar("Henvendelse ble satt til FULLFØRT", SvarKode.SUKSESS);
     }
 

@@ -70,8 +70,8 @@ public class Melding implements Serializable {
         return new Melding(null, innhold, svarKode, id, null, null);
     }
 
-    public static Melding registrerKlient(Kommando kommando, Object klientRolle){
-        return new Melding(kommando, klientRolle, null, 0, null, null);
+    public static Melding registrerKlient(Kommando kommando, Object innhold){
+        return new Melding(kommando, innhold, null, 0, null, null);
     }
 
 }

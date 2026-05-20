@@ -22,4 +22,10 @@ public class RegistratorController extends KlientMain {
         Melding forespørsel = Melding.forespørsel(Kommando.HENT_HENVENDELSE_STATUS, henvendelseID, KlientRolle.REGISTRATOR);
         return sendOgMotta(forespørsel);
     }
+
+    public Melding registrerRegistrator(String navn) throws IOException, ClassNotFoundException {
+        KlientInfo klientInfo = new KlientInfo(navn, KlientRolle.REGISTRATOR);
+        Melding foresprørsel = Melding.registrerKlient(Kommando.REGISTRER_KLIENT, klientInfo);
+        return sendOgMotta(foresprørsel);
+    }
 }

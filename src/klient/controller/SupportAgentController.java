@@ -17,5 +17,11 @@ public class SupportAgentController extends KlientMain {
         Melding forespørsel = Melding.forespørsel(Kommando.SETT_HENVENDELSE_FULLFØRT, id, KlientRolle.AGENT);
         return sendOgMotta(forespørsel);
     }
+
+    public Melding registrerSupportAgent(String navn) throws IOException, ClassNotFoundException {
+        KlientInfo klientInfo = new KlientInfo(navn, KlientRolle.AGENT);
+        Melding foresprørsel = Melding.registrerKlient(Kommando.REGISTRER_KLIENT, klientInfo);
+        return sendOgMotta(foresprørsel);
+    }
     
 }

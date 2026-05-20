@@ -12,7 +12,7 @@ import server.util.LoggHandler;
 
 // Hovedklassen for serveren som håndterer innkommende klienttilkoblinger
 public class ServerMain {
-    public static final int PORT = 11111;
+    public static final int PORT = Nettverk.PORT;
 
     private final Map<Integer, Henvendelse> henvendelseRegistrer = new LinkedHashMap<>();
     private final LinkedBlockingQueue<Integer> henvendelseVenteListe = new LinkedBlockingQueue<>();
@@ -28,6 +28,7 @@ public class ServerMain {
     // Starter serveren og håndterer innkommende klienttilkoblinger
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            System.out.println("Server kjører");
             while (true) {
             Socket socket = serverSocket.accept();
             System.out.println("Ny klient koblet til: ");
