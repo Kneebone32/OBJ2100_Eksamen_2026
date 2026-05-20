@@ -73,7 +73,8 @@ public class SupportAgentConsoleView {
             Melding respons = kontroller.hentHenvendelse();
             Henvendelse innhold = (Henvendelse) respons.getInnhold();
             BehandleHenvendelse behandleHenvendelse = new BehandleHenvendelse(innhold);
-            
+            behandleHenvendelse.behandleHenvendelse();
+
             System.out.println("Henvendelse ID: " + innhold.getHenvendelseID() + "\n"
                                + innhold.getHenvendelseInnhold() + "\n");
             
