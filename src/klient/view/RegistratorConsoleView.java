@@ -77,7 +77,7 @@ public class RegistratorConsoleView {
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
 
-        String melding = controller.submit(type,hendelseInput);
+        Melding melding = controller.opprettHenvendelse(type, hendelseInput);
         System.out.println(melding);
     }
 
