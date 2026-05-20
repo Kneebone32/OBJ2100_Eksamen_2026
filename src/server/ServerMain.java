@@ -38,12 +38,11 @@ public class ServerMain {
             }
         }
         
-
+        // Oppretter en ny henvendelse og legger den til i registret og vente listen
         public synchronized int opprettHenvendelse(String innhold, HenvendelseType type) {
             int id = nesteHenvendelseID.getAndIncrement();
             Henvendelse nyHenvendelse = new Henvendelse(
                 id, 
-                HenvendelseStatus.OPPRETTET,
                 type,
                 innhold
                 );
@@ -53,6 +52,7 @@ public class ServerMain {
             return id;
         }
 
+        // Oppdaterer statusen til en henvendelse og fjerner den fra vente listen hvis den blir kansellert
         public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null) {
@@ -65,6 +65,7 @@ public class ServerMain {
             }
         }
 
+        // Kansellerer en henvendelse hvis den er i OPPRETTET status og fjerner den fra vente listen
         public synchronized SvarKode kansellerHenvendelse(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
@@ -76,12 +77,14 @@ public class ServerMain {
             return SvarKode.ERROR;
         }
 
+        // Logger en hendelse ved å opprette en HendelseLoggLinje og skrive den til fil ved hjelp av LoggHandler
         public synchronized void loggHendelse(String referanse, String innhold) {
             int id = nesteLoggID.getAndIncrement();
             HendelseLoggLinje hendelseLogg = new HendelseLoggLinje(id, referanse, innhold);
             LoggHandler.skrivLoggLinje(hendelseLogg);
         }
 
+        // Registrerer en klient ved å tildele den en unik ID og opprette en Agent eller Registrator basert på klient rolle 
         public synchronized int registrerKlient(KlientInfo klientInfo) {
             int id = nesteKlientID.getAndIncrement();
             switch (klientInfo.getKlientRolle()) {
@@ -95,14 +98,17 @@ public class ServerMain {
             return id;
         }
 
+        // Henter en henvendelse basert på ID fra registret
         public synchronized Henvendelse hentHenvendelse(int id) {
             return henvendelseRegistrer.get(id);
         }
 
+        // Henter neste ledige henvendelse ID fra vente listen, blokkerer hvis ingen er tilgjengelig
         public Integer hentNesteHenvendelseID() throws InterruptedException {
             return henvendelseVenteListe.take();
         }
 
+        // Henter statusen til en henvendelse basert på ID
         public synchronized HenvendelseStatus hentHenvendelseStatus(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             return henvendelse != null ? henvendelse.getStatus() : null;
