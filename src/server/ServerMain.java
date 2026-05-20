@@ -1,5 +1,4 @@
 package server;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.net.ServerSocket;
@@ -53,6 +52,16 @@ public class ServerMain {
             return id;
         }
 
+        // Setter en henvendelse fra OPPRETTET til BEHANDLER
+        public synchronized Henvendelse hentHenvendelse(int id) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
+                henvendelse.setStatus(HenvendelseStatus.BEHANDLER);
+                loggHendelse(String.valueOf(id), "Henvendelse hentet for behandling");
+            }
+            return henvendelse;
+        }
+
         // Kansellerer en henvendelse hvis den er i OPPRETTET status og fjerner den fra vente listen
         public synchronized SvarKode kansellerHenvendelse(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
@@ -95,16 +104,6 @@ public class ServerMain {
                     break;
             }
             return id;
-        }
-
-        // Setter en henvendelse fra OPPRETTET til BEHANDLER
-        public synchronized Henvendelse hentHenvendelse(int id) {
-            Henvendelse henvendelse = henvendelseRegistrer.get(id);
-            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
-                henvendelse.setStatus(HenvendelseStatus.BEHANDLER);
-                loggHendelse(String.valueOf(id), "Henvendelse hentet for behandling");
-            }
-            return henvendelse;
         }
 
         // Henter neste ledige henvendelse ID fra vente listen, blokkerer hvis ingen er tilgjengelig
