@@ -82,7 +82,8 @@ public class SupportAgentConsoleView {
                 fullførHenvendelse(innhold.getHenvendelseID());
                 System.out.println("Henvendelsen er fullført");
             } else if (valg.equals("2")) {
-                System.out.println("Henvendelsen fullføres ikke");
+                fullførHenvendelse(innhold.getHenvendelseID());
+                System.out.println("Dette er ikke implementert enda. Henvendelsen settes som fullført");
             } else {
                 System.out.println("Ugyldig input");
             }
