@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import klient.controller.RegistratorController;
 import common.enums.HenvendelseType;
+import common.enums.SvarKode;
 import common.Melding;
 
 public class RegistratorConsoleView {
@@ -118,10 +119,13 @@ public class RegistratorConsoleView {
         try {
             Melding respons = kontroller.opprettHenvendelse(hendelseInput, type);
             System.out.println(respons.getInnhold());
+
+            if (respons.getResponseStatus() == SvarKode.SUKSESS) {
+                System.out.println("Henvendelse ID: " + respons.getHenvendelseID());
+            }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Kunne ikke opprette henvendelse: " + e.getMessage());
         }
-
     }
 
     //Registrator kan kansellere en henvendelse
