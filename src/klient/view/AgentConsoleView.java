@@ -1,12 +1,12 @@
-package org.example;
-
 import java.util.Scanner;
 
 public class AgentConsoleView {
 
     private final Scanner scanner = new Scanner(System.in);
+    private final SupportAgentController;
 
     public void displayMenu(){
+        while(true){
         System.out.println("Velkommen");
         System.out.println();
         System.out.println("1.Sett en henvendelse til fullført");
@@ -34,6 +34,7 @@ public class AgentConsoleView {
                 System.out.println("Ugyldig valg");
         }
     }
+    }
 
     //Agent setter en hendelse_id til fullført
     private void fullforHenvendelse(){
@@ -42,13 +43,15 @@ public class AgentConsoleView {
 
         System.out.print("Kommentar: ");
         String kommentar = scanner.nextLine();
-
-        //String respons = controller.fullfor(id,kommentar);
+        
+        String respons = controller.fullfor(id,kommentar);
+        System.out.println(respons);
     }
+
     //Agent henter neste ledige henvendelse
     private void hentNyHenvendelse() {
-        // String respons = controller.hentNyHenvendelse(agentId);
-        // System.out.println(respons);
+        String respons = controller.hentNyHenvendelse(agentId);
+        System.out.println(respons);
     }
 
 
