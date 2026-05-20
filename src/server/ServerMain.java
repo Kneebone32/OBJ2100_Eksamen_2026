@@ -52,16 +52,12 @@ public class ServerMain {
             return id;
         }
 
-        // Oppdaterer statusen til en henvendelse og fjerner den fra vente listen hvis den blir kansellert
+        // Oppdaterer statusen til en henvendelse
         public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null) {
                 henvendelse.setStatus(nyStatus);
                 loggHendelse(String.valueOf(id), "Henvendelse oppdatert til status: " + nyStatus);
-
-                if (nyStatus == HenvendelseStatus.KANSELLERT) {
-                    henvendelseVenteListe.remove(id);
-                }
             }
         }
 
@@ -72,6 +68,17 @@ public class ServerMain {
                 henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
                 henvendelseVenteListe.remove(id);
                 loggHendelse(String.valueOf(id), "Henvendelse kansellert");
+                return SvarKode.SUKSESS;
+            }
+            return SvarKode.ERROR;
+        }
+
+        // Setter en henvendelse fra BEHANDLER til FULLFØRT
+        public synchronized SvarKode settHenvendelseFullført(int id) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.BEHANDLER) {
+                henvendelse.setStatus(HenvendelseStatus.FULLFØRT);
+                loggHendelse(String.valueOf(id), "Henvendelse fullført");
                 return SvarKode.SUKSESS;
             }
             return SvarKode.ERROR;
