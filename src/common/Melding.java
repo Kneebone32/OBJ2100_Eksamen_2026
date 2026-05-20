@@ -49,7 +49,7 @@ public class Melding implements Serializable {
     public static Melding opprettHenvendelse(String innhold, HenvendelseType henvendelseType){
         return new Melding(Kommando.OPPRETT_HENVENDELSE, innhold, null, 0, henvendelseType);
     }
-    
+
     public static Melding forespørsel(Kommando kommando, Object innhold){
         return new Melding(kommando, innhold, null, 0, null);
     }
@@ -60,6 +60,10 @@ public class Melding implements Serializable {
 
     public static Melding svarMedID(Object innhold, SvarKode svarKode, int id){
         return new Melding(null, innhold, svarKode, id, null);
+    }
+
+    public static Melding registrerKlient(Kommando kommando, Object klientRolle){
+        return new Melding(kommando, klientRolle, null, 0, null);
     }
 
 }
