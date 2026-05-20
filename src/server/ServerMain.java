@@ -53,15 +53,6 @@ public class ServerMain {
             return id;
         }
 
-        // Oppdaterer statusen til en henvendelse
-        public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
-            Henvendelse henvendelse = henvendelseRegistrer.get(id);
-            if (henvendelse != null) {
-                henvendelse.setStatus(nyStatus);
-                loggHendelse(String.valueOf(id), "Henvendelse oppdatert til status: " + nyStatus);
-            }
-        }
-
         // Kansellerer en henvendelse hvis den er i OPPRETTET status og fjerner den fra vente listen
         public synchronized SvarKode kansellerHenvendelse(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
@@ -106,9 +97,14 @@ public class ServerMain {
             return id;
         }
 
-        // Henter en henvendelse basert på ID fra registret
+        // Setter en henvendelse fra OPPRETTET til BEHANDLER
         public synchronized Henvendelse hentHenvendelse(int id) {
-            return henvendelseRegistrer.get(id);
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
+                henvendelse.setStatus(HenvendelseStatus.BEHANDLER);
+                loggHendelse(String.valueOf(id), "Henvendelse hentet for behandling");
+            }
+            return henvendelse;
         }
 
         // Henter neste ledige henvendelse ID fra vente listen, blokkerer hvis ingen er tilgjengelig
