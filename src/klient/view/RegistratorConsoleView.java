@@ -17,15 +17,37 @@ public class RegistratorConsoleView {
     }
 
     public void displayMenu(){
+
+        // Registrerer navn på registrator
+        String navn;
+        while (true) {
+            System.out.println("Vennligst skriv inn navnet ditt:");
+            navn = scanner.nextLine();
+            if (!navn.isBlank()) {
+                break;
+            }
+            System.out.println("Navnet kan ikke være tomt");
+        }
+
+        try {
+            Melding respons = kontroller.registrerRegistrator(navn);
+            System.out.println(respons.getInnhold());
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Kunne ikke registrere registrator: " + e.getMessage());
+            return;
+        }
+        System.out.println("Velkommen, " + navn + "!");
+        
+        // Meny
         while (true){
-        System.out.println("Velkommen");
+        System.out.println("Hva ønsker du å gjøre?");
         System.out.println();
-        System.out.println("1.Opprett ny henvendelse");
-        System.out.println("2.Kanseller henvendelse");
-        System.out.println("3.sjekk status ");
-        System.out.println("4.Avslutt");
+        System.out.println("1. Opprett ny henvendelse");
+        System.out.println("2. Kanseller henvendelse");
+        System.out.println("3. Sjekk status");
+        System.out.println("4. Avslutt");
         System.out.println();
-        System.out.print("Velg: ");
+        System.out.println("Skriv et tall for å velge: ");
 
         String valg = scanner.nextLine();
 
@@ -89,37 +111,37 @@ public class RegistratorConsoleView {
         String hendelseInput = scanner.nextLine();
 
         try {
-            Melding melding = kontroller.opprettHenvendelse(hendelseInput, type);
-            System.out.println(melding);
+            Melding respons = kontroller.opprettHenvendelse(hendelseInput, type);
+            System.out.println(respons.getInnhold());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Kunne ikke opprette henvendelse: " + e.getMessage());
         }
 
     }
 
     //Registrator kan kansellere en henvendelse
     private void kansellerHenvendelse() {
-        System.out.print("Hendelse_id som skal kanselleres: ");
+        System.out.print("Oppgi ID til henvendelsen som skal kanselleres: ");
         int id = Integer.parseInt(scanner.nextLine());
 
         try {
             Melding respons = kontroller.kansellerHenvendelse(id);
-            System.out.println(respons);
+            System.out.println(respons.getInnhold());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Kunne ikke kansellere henvendelse: " + e.getMessage());
         }
     }
 
     //Registrator kan sjekke status for en henvendelse.
-    private void sjekkHenvendelseStatus(){
-        System.out.print("Henvendelse_id du vil sjekke: ");
+    private void sjekkHenvendelseStatus() {
+        System.out.print("Oppgi ID til henvendelsen du vil sjekke: ");
         int id = Integer.parseInt(scanner.nextLine());
 
         try {
             Melding respons = kontroller.hentStatus(id);
-            System.out.println(respons);
+            System.out.println(respons.getInnhold());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Kunne ikke sjekke status til henvendelse: " + e.getMessage());
         }
     }
 

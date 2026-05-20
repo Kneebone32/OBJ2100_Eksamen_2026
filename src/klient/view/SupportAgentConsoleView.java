@@ -41,10 +41,11 @@ public class SupportAgentConsoleView {
         // Meny
         while (true) {
         System.out.println("Hva ønsker du å gjøre?");
+        System.out.println();
         System.out.println("1. Hent en ny henvendelse");
         System.out.println("2. Avslutt");
         System.out.println();
-        System.out.println("Skriv 1 eller 2: ");
+        System.out.println("Skriv et tall for å velge: ");
 
         String valg = scanner.nextLine();
 
@@ -85,7 +86,7 @@ public class SupportAgentConsoleView {
                 System.out.println("Ugyldig input");
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Kunne ikke hente henvendelse: " + e.getMessage());
         }
     }
 
@@ -95,7 +96,7 @@ public class SupportAgentConsoleView {
             Melding respons = kontroller.settFullført(id);
             System.out.println(respons.getInnhold());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Kunne ikke fullføre henvendelse: " + e.getMessage());
         }
     }
 
