@@ -5,7 +5,7 @@ import common.Nettverk;
 import klient.view.RegistratorConsoleView;
 
 // Inngangspunktet for registrator klient
-public class RegistratorKlient {
+public class RegistratorKlientMain {
     public static void main(String[] args) {
         try {
             RegistratorController kontroller = new RegistratorController();

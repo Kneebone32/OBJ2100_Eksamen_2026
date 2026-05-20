@@ -3,10 +3,10 @@ package klient.controller;
 import java.io.IOException;
 import common.*;
 import common.enums.*;
-import klient.KlientMain;
+import klient.BaseKlient;
 
 // Metoder som registratoren bruker mot serveren
-public class RegistratorController extends KlientMain {
+public class RegistratorController extends BaseKlient {
 
     public Melding opprettHenvendelse(String innhold, HenvendelseType type) throws IOException, ClassNotFoundException {
         Melding forespørsel = Melding.opprettHenvendelse(innhold, type, KlientRolle.REGISTRATOR);

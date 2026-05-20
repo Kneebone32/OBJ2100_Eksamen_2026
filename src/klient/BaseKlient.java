@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.io.*;
 import common.Melding;
 
-public abstract class KlientMain {
+public abstract class BaseKlient {
     private Socket socket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
