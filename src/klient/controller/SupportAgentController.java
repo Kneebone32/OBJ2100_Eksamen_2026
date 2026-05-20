@@ -1,5 +1,7 @@
 package klient.controller;
 
-public class SupportAgentController {
+import klient.KlientMain;
+
+public class SupportAgentController extends KlientMain {
     
 }
