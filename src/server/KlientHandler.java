@@ -130,11 +130,11 @@ public class KlientHandler implements Runnable {
 
     //Setter en henvendelse til fullført. Kun for Agent og hvis status == BEHANDLER
     private Melding settHenvendelseFullført(Melding forespørsel){
-        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle()))
+        if(!validerRolle(forespørsel.getKommando(), forespørsel.getKlientRolle())){
             return Melding.svar("Kunne ikke endre status til fullført", SvarKode.ERROR);
-
+        }
         
-
+        server.oppdaterHenvendelseStatus(forespørsel.getHenvendelseID(), HenvendelseStatus.FULLFØRT);
         return Melding.svar("Henvendelse ble satt til FULLFØRT", SvarKode.SUKSESS);
     }
 
