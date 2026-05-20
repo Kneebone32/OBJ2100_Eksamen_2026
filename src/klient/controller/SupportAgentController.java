@@ -3,10 +3,10 @@ package klient.controller;
 import java.io.IOException;
 import common.*;
 import common.enums.*;
-import klient.KlientMain;
+import klient.BaseKlient;
 
 // Metoder som agenter bruker mot serveren
-public class SupportAgentController extends KlientMain {
+public class SupportAgentController extends BaseKlient {
 
     public Melding hentHenvendelse() throws IOException, ClassNotFoundException {
         Melding forespørsel = Melding.forespørsel(Kommando.HENT_LEDIG_HENVENDELSE, null, KlientRolle.AGENT);
