@@ -1,9 +1,20 @@
+package klient.view;
+
+import java.io.IOException;
 import java.util.Scanner;
+import klient.controller.RegistratorController;
+import common.enums.HenvendelseType;
+import common.Melding;
 
 public class RegistratorConsoleView {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final RegistratorController controller;
+    private final RegistratorController kontroller;
+
+    // Konstruktør
+    public RegistratorConsoleView(RegistratorController kontroller) {
+        this.kontroller = kontroller;
+    }
 
     public void displayMenu(){
         while (true){
@@ -77,17 +88,26 @@ public class RegistratorConsoleView {
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
 
-        Melding melding = controller.opprettHenvendelse(type, hendelseInput);
-        System.out.println(melding);
+        try {
+            Melding melding = kontroller.opprettHenvendelse(hendelseInput, type);
+            System.out.println(melding);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
 
     //Registrator kan kansellere en henvendelse
-    private void kansellerHenvendelse(){
+    private void kansellerHenvendelse() {
         System.out.print("Hendelse_id som skal kanselleres: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        String respons = controller.cancel(id);
-        System.out.println(respons);
+        try {
+            Melding respons = kontroller.kansellerHenvendelse(id);
+            System.out.println(respons);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     //Registrator kan sjekke status for en henvendelse.
@@ -95,8 +115,12 @@ public class RegistratorConsoleView {
         System.out.print("Henvendelse_id du vil sjekke: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        String respons = controller.sjekkStatus(id);
-        System.out.println(respons);
+        try {
+            Melding respons = kontroller.hentStatus(id);
+            System.out.println(respons);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }

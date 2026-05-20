@@ -1,9 +1,19 @@
-import java.util.Scanner;
+package klient.view;
 
-public class AgentConsoleView {
+import java.io.IOException;
+import java.util.Scanner;
+import klient.controller.SupportAgentController;
+import common.Melding;
+
+public class SupportAgentConsoleView {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final SupportAgentController;
+    private final SupportAgentController kontroller;
+
+    // Konstruktør
+    public SupportAgentConsoleView(SupportAgentController kontroller) {
+        this.kontroller = kontroller;
+    }
 
     public void displayMenu(){
         while(true){
@@ -36,22 +46,30 @@ public class AgentConsoleView {
     }
     }
 
-    //Agent setter en hendelse_id til fullført
+    //Agent setter en henvendelse til fullført
     private void fullforHenvendelse(){
         System.out.print("Hendelse_id som skal fullføres: ");
         int id = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Kommentar: ");
         String kommentar = scanner.nextLine();
-        
-        String respons = controller.fullfor(id,kommentar);
-        System.out.println(respons);
+
+        try {
+            Melding respons = kontroller.settFullført(id);
+            System.out.println(respons);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     //Agent henter neste ledige henvendelse
     private void hentNyHenvendelse() {
-        String respons = controller.hentNyHenvendelse(agentId);
-        System.out.println(respons);
+        try {
+            Melding respons = kontroller.hentHenvendelse();
+            System.out.println(respons);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 
