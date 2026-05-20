@@ -19,6 +19,7 @@ public class ServerMain {
 
     private final AtomicInteger nesteHenvendelseID = new AtomicInteger(1);
     private final AtomicInteger nesteLoggID = new AtomicInteger(1);
+    private final AtomicInteger nesteKlientID = new AtomicInteger(1);
 
     public static void main(String[] args) {
         new ServerMain().start();
@@ -79,6 +80,19 @@ public class ServerMain {
             int id = nesteLoggID.getAndIncrement();
             HendelseLoggLinje hendelseLogg = new HendelseLoggLinje(id, referanse, innhold);
             LoggHandler.skrivLoggLinje(hendelseLogg);
+        }
+
+        public synchronized int registrerKlient(KlientInfo klientInfo) {
+            int id = nesteKlientID.getAndIncrement();
+            switch (klientInfo.getKlientRolle()) {
+                case AGENT:
+                    Registrator registrator = new Registrator(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
+                    break;
+                case REGISTRATOR:
+                    Agent agent = new Agent(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
+                    break;
+            }
+            return id;
         }
 
         public synchronized Henvendelse hentHenvendelse(int id) {
