@@ -16,32 +16,13 @@ public class Melding implements Serializable {
 
     //Konstruktøren for meldingene hvor vi har oppgitt kommando, innhold, responsstatus
     //og en henvendelseID som skal være unik for hver melding.
-    public Melding(Kommando kommando, Object innhold, SvarKode responsStatus, int henvendelseID) {
+    public Melding(Kommando kommando, Object innhold, SvarKode responsStatus, int henvendelseID, HenvendelseType henvendelseType) {
         this.kommando = kommando;
         this.innhold = innhold;
         this.responsStatus = responsStatus;
         this.henvendelseID = henvendelseID;
-        this.henvendelseType = null;
-    }
-
-    //brukes som svarmelding fra server
-    public Melding(Object innhold, SvarKode responsStatus){
-        this.innhold = innhold;
-        this.responsStatus = responsStatus;
-        henvendelseID = 0;
-        kommando = null;
-        this.henvendelseType = null;
-    }
-
-    //kan brukes til opprettelse av henvendelse
-    public Melding(Kommando kommando, Object innhold, HenvendelseType henvendelseType){
-        this.kommando = kommando;
         this.henvendelseType = henvendelseType;
-        this.innhold = innhold;
-        this.responsStatus = null;
-        this.henvendelseID = 0;
     }
-
 
     //De forskjellige getters for å hente ut informasjonen i meldingene.
     public Kommando getKommando() {
@@ -62,6 +43,23 @@ public class Melding implements Serializable {
 
     public HenvendelseType getHenvendelseType(){
         return henvendelseType;
+    }
+
+    //metoder for å skille på opprettHenvendelse, forespørsel og svar.
+    public static Melding opprettHenvendelse(String innhold, HenvendelseType henvendelseType){
+        return new Melding(Kommando.OPPRETT_HENVENDELSE, innhold, null, 0, henvendelseType);
+    }
+    
+    public static Melding forespørsel(Kommando kommando, Object innhold){
+        return new Melding(kommando, innhold, null, 0, null);
+    }
+
+    public static Melding svar(Object innhold, SvarKode svarKode){
+        return new Melding(null, innhold, svarKode, 0, null);
+    }
+
+    public static Melding svarMedID(Object innhold, SvarKode svarKode, int id){
+        return new Melding(null, innhold, svarKode, id, null);
     }
 
 }
