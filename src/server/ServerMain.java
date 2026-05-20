@@ -48,7 +48,7 @@ public class ServerMain {
                 );
             henvendelseRegistrer.put(id, nyHenvendelse);
             henvendelseVenteListe.add(id);
-            loggHendelse(String.valueOf(id), "Henvendelse opprettet");
+            loggHendelse("Henvendelse id:" + String.valueOf(id), "Henvendelse opprettet");
             return id;
         }
 
@@ -57,7 +57,7 @@ public class ServerMain {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
                 henvendelse.setStatus(HenvendelseStatus.BEHANDLER);
-                loggHendelse(String.valueOf(id), "Henvendelse hentet for behandling");
+                loggHendelse("Henvendelse id:" + String.valueOf(id), "Henvendelse hentet for behandling");
             }
             return henvendelse;
         }
@@ -68,7 +68,7 @@ public class ServerMain {
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
                 henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
                 henvendelseVenteListe.remove(id);
-                loggHendelse(String.valueOf(id), "Henvendelse kansellert");
+                loggHendelse("Henvendelse id:" + String.valueOf(id), "Henvendelse kansellert");
                 return SvarKode.SUKSESS;
             }
             return SvarKode.ERROR;
@@ -79,7 +79,7 @@ public class ServerMain {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.BEHANDLER) {
                 henvendelse.setStatus(HenvendelseStatus.FULLFØRT);
-                loggHendelse(String.valueOf(id), "Henvendelse fullført");
+                loggHendelse("Henvendelse id:" + String.valueOf(id), "Henvendelse fullført");
                 return SvarKode.SUKSESS;
             }
             return SvarKode.ERROR;
