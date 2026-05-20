@@ -4,6 +4,7 @@ import klient.controller.SupportAgentController;
 import klient.view.SupportAgentConsoleView;
 import common.Nettverk;
 
+// Inngangspunktet for support agent klient
 public class SupportAgentKlientMain {
     public static void main(String[] args) {
         try {

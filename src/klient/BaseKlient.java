@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.io.*;
 import common.Melding;
 
+// Felles base for klientene (registrator og support agent)
 public abstract class BaseKlient {
     private Socket socket;
     private ObjectOutputStream output;
