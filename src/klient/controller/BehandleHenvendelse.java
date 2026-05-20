@@ -12,7 +12,7 @@ public class BehandleHenvendelse {
     public void behandleHenvendelse(){
         try {
             System.out.println("Starter behandlingen");
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             System.out.println("Henvendelse: " + henvendelse.getHenvendelseID() + " er ferdig behandlet");
 
         } catch (InterruptedException e) {

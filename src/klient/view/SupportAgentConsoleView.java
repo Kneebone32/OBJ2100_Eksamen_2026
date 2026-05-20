@@ -2,6 +2,8 @@ package klient.view;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import klient.controller.BehandleHenvendelse;
 import klient.controller.SupportAgentController;
 import common.Melding;
 import common.Henvendelse;
@@ -70,6 +72,8 @@ public class SupportAgentConsoleView {
         try {
             Melding respons = kontroller.hentHenvendelse();
             Henvendelse innhold = (Henvendelse) respons.getInnhold();
+            BehandleHenvendelse behandleHenvendelse = new BehandleHenvendelse(innhold);
+            
             System.out.println("Henvendelse ID: " + innhold.getHenvendelseID() + "\n"
                                + innhold.getHenvendelseInnhold() + "\n");
             
