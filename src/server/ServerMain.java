@@ -39,13 +39,13 @@ public class ServerMain {
         }
         
 
-        public synchronized int opprettHenvendelse(Henvendelse henvendelse) {
+        public synchronized int opprettHenvendelse(String innhold, HenvendelseType type) {
             int id = nesteHenvendelseID.getAndIncrement();
             Henvendelse nyHenvendelse = new Henvendelse(
                 id, 
                 HenvendelseStatus.OPPRETTET,
-                henvendelse.getType(),
-                henvendelse.getHenvendelseInnhold() 
+                type,
+                innhold
                 );
             henvendelseRegistrer.put(id, nyHenvendelse);
             henvendelseVenteListe.add(id);
@@ -86,10 +86,10 @@ public class ServerMain {
             int id = nesteKlientID.getAndIncrement();
             switch (klientInfo.getKlientRolle()) {
                 case AGENT:
-                    Registrator registrator = new Registrator(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
+                    Agent agent = new Agent(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
                     break;
                 case REGISTRATOR:
-                    Agent agent = new Agent(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
+                    Registrator registrator = new Registrator(id, klientInfo.getKlientNavn(), klientInfo.getKlientRolle());
                     break;
             }
             return id;
