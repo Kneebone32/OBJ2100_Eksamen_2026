@@ -58,8 +58,9 @@ public class ServerMain {
             if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
                 henvendelse.setStatus(HenvendelseStatus.BEHANDLER);
                 loggHendelse("Henvendelse id:" + String.valueOf(id), "Henvendelse hentet for behandling");
+                return henvendelse;
             }
-            return henvendelse;
+            return null;
         }
 
         // Kansellerer en henvendelse hvis den er i OPPRETTET status og fjerner den fra vente listen
