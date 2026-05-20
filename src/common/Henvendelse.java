@@ -15,7 +15,7 @@ public class Henvendelse implements Serializable {
     private String henvendelseInnhold;
 
     //Konstruktøren med de nødvendige parameterne for å opprette en henvendelse.
-    public Henvendelse(int henvendelseID, HenvendelseStatus status, HenvendelseType type, String henvendelseInnhold) {
+    public Henvendelse(int henvendelseID, HenvendelseType type, String henvendelseInnhold) {
         this.henvendelseID = henvendelseID;
         this.status = HenvendelseStatus.OPPRETTET;
         this.type = type;

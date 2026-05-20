@@ -36,30 +36,34 @@ public class KlientHandler implements Runnable {
         }
     }
 
-        //TODO: unntakshåndering! 
     private Melding håndterForespørsel(Melding forespørsel) throws InterruptedException {
+        try {
+
         switch (forespørsel.getKommando()) {
             case OPPRETT_HENVENDELSE:
-                opprettHenvendelse(forespørsel);
+                return opprettHenvendelse(forespørsel);
 
             case HENT_HENVENDELSE_STATUS:
-                hentHenveldelseStatus(forespørsel);
+                return hentHenveldelseStatus(forespørsel);
 
             case KANSELLER_HENVENDELSE:
-                kansellerHenvendelse(forespørsel);
+                return kansellerHenvendelse(forespørsel);
 
             case HENT_LEDIG_HENVENDELSE:
-                hentLedigHenvendelse(forespørsel);
+                return hentLedigHenvendelse(forespørsel);
 
             case SETT_HENVENDELSE_FULLFØRT:
-                settHenvendelseFullført(forespørsel);
+                return settHenvendelseFullført(forespørsel);
 
             case REGISTRER_KLIENT:
-                registrerKlient(forespørsel);
-                
-            default: 
+                return registrerKlient(forespørsel);
+
+            default:
                 return Melding.svar("Ukjent forespørsel", SvarKode.ERROR);
 
+        }
+        } catch (ClassCastException | NullPointerException e) {
+            return Melding.svar("Ugyldig melding", SvarKode.ERROR);
         }
         
     }
@@ -152,7 +156,3 @@ public class KlientHandler implements Runnable {
 
 }
 
-
-
-
-//TODO: unntakshåntering på typetvang
