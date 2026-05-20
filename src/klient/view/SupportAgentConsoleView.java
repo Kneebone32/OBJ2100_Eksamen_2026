@@ -40,28 +40,29 @@ public class SupportAgentConsoleView {
 
         // Meny
         while (true) {
-        System.out.println("Hva ønsker du å gjøre?");
-        System.out.println();
-        System.out.println("1. Hent en ny henvendelse");
-        System.out.println("2. Avslutt");
-        System.out.println();
-        System.out.println("Skriv et tall for å velge: ");
+            System.out.println("\n");
+            System.out.println("Hva ønsker du å gjøre?");
+            System.out.println();
+            System.out.println("1. Hent en ny henvendelse");
+            System.out.println("2. Avslutt");
+            System.out.println();
+            System.out.println("Skriv et tall for å velge: ");
 
-        String valg = scanner.nextLine();
+            String valg = scanner.nextLine();
 
-        switch(valg){
-            case "1":
-                hentNyHenvendelse();
-                break;
+            switch(valg){
+                case "1":
+                    hentNyHenvendelse();
+                    break;
 
-            case "2":
-                System.out.println("Velkommen igjen");
-                return;
+                case "2":
+                    System.out.println("Velkommen igjen");
+                    return;
 
-            default:
-                System.out.println("Ugyldig input");
+                default:
+                    System.out.println("Ugyldig input");
+            }
         }
-    }
     }
 
     //Agent henter neste ledige henvendelse og velger fullført eller ikke

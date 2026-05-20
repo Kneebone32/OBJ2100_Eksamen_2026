@@ -40,38 +40,39 @@ public class RegistratorConsoleView {
         
         // Meny
         while (true){
-        System.out.println("Hva ønsker du å gjøre?");
-        System.out.println();
-        System.out.println("1. Opprett ny henvendelse");
-        System.out.println("2. Kanseller henvendelse");
-        System.out.println("3. Sjekk status");
-        System.out.println("4. Avslutt");
-        System.out.println();
-        System.out.println("Skriv et tall for å velge: ");
+            System.out.println("\n");
+            System.out.println("Hva ønsker du å gjøre?");
+            System.out.println();
+            System.out.println("1. Opprett ny henvendelse");
+            System.out.println("2. Kanseller henvendelse");
+            System.out.println("3. Sjekk status");
+            System.out.println("4. Avslutt");
+            System.out.println();
+            System.out.println("Skriv et tall for å velge: ");
 
-        String valg = scanner.nextLine();
+            String valg = scanner.nextLine();
 
-        switch(valg){
-            case "1":
-              opprettHenvendelse();
-              break;
-
-            case "2":
-                kansellerHenvendelse();
+            switch(valg){
+                case "1":
+                opprettHenvendelse();
                 break;
 
-            case "3":
-                sjekkHenvendelseStatus();
-                break;
+                case "2":
+                    kansellerHenvendelse();
+                    break;
 
-            case "4":
-                System.out.println("Velkommen igjen");
-                return;
+                case "3":
+                    sjekkHenvendelseStatus();
+                    break;
 
-            default:
-                System.out.println("Ugyldig valg");
+                case "4":
+                    System.out.println("Velkommen igjen");
+                    return;
+
+                default:
+                    System.out.println("Ugyldig valg");
+            }
         }
-    }
     }
 
 
