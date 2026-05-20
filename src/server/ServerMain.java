@@ -48,7 +48,31 @@ public class ServerMain {
                 );
             henvendelseRegistrer.put(id, nyHenvendelse);
             henvendelseVenteListe.add(id);
+            loggHendelse(String.valueOf(id), "Henvendelse opprettet");
             return id;
+        }
+
+        public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null) {
+                henvendelse.setStatus(nyStatus);
+                loggHendelse(String.valueOf(id), "Henvendelse oppdatert til status: " + nyStatus);
+
+                if (nyStatus == HenvendelseStatus.KANSELLERT) {
+                    henvendelseVenteListe.remove(id);
+                }
+            }
+        }
+
+        public synchronized SvarKode kansellerHenvendelse(int id) {
+            Henvendelse henvendelse = henvendelseRegistrer.get(id);
+            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
+                henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
+                henvendelseVenteListe.remove(id);
+                loggHendelse(String.valueOf(id), "Henvendelse kansellert");
+                return SvarKode.SUKSESS;
+            }
+            return SvarKode.ERROR;
         }
 
         public synchronized void loggHendelse(String referanse, String innhold) {
@@ -61,33 +85,12 @@ public class ServerMain {
             return henvendelseRegistrer.get(id);
         }
 
-        public synchronized Integer hentNesteHenvendelseID() throws InterruptedException {
+        public Integer hentNesteHenvendelseID() throws InterruptedException {
             return henvendelseVenteListe.take();
         }
 
         public synchronized HenvendelseStatus hentHenvendelseStatus(int id) {
             Henvendelse henvendelse = henvendelseRegistrer.get(id);
             return henvendelse != null ? henvendelse.getStatus() : null;
-        }
-
-        public synchronized SvarKode kansellerHenvendelse(int id) {
-            Henvendelse henvendelse = henvendelseRegistrer.get(id);
-            if (henvendelse != null && henvendelse.getStatus() == HenvendelseStatus.OPPRETTET) {
-                henvendelse.setStatus(HenvendelseStatus.KANSELLERT);
-                henvendelseVenteListe.remove(id);
-                return SvarKode.SUKSESS;
-            }
-            return SvarKode.ERROR;
-        }
-
-        public synchronized void oppdaterHenvendelseStatus(int id, HenvendelseStatus nyStatus) {
-            Henvendelse henvendelse = henvendelseRegistrer.get(id);
-            if (henvendelse != null) {
-                henvendelse.setStatus(nyStatus);
-
-                if (nyStatus == HenvendelseStatus.KANSELLERT) {
-                    henvendelseVenteListe.remove(id);
-                }
-            }
         }
 }
