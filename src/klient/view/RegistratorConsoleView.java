@@ -21,7 +21,7 @@ public class RegistratorConsoleView {
         // Registrerer navn på registrator
         String navn;
         while (true) {
-            System.out.println("Vennligst skriv inn navnet ditt:");
+            System.out.print("Vennligst skriv inn navnet ditt: ");
             navn = scanner.nextLine();
             if (!navn.isBlank()) {
                 break;
@@ -48,7 +48,7 @@ public class RegistratorConsoleView {
             System.out.println("3. Sjekk status");
             System.out.println("4. Avslutt");
             System.out.println();
-            System.out.println("Skriv et tall for å velge: ");
+            System.out.print("Skriv et tall for å velge: ");
 
             String valg = scanner.nextLine();
 
@@ -78,14 +78,16 @@ public class RegistratorConsoleView {
 
     /*Registrator oppretter en ny henvendelse. Her velger registrator
       en kategori og skriver en beskrivelse om henvendelsen.
-     */
+    */
     private void opprettHenvendelse() {
+        System.out.println();
         System.out.println("Velg type henvendelse");
+        System.out.println();
         System.out.println("1. Nettverksfeil");
         System.out.println("2. Serverfeil");
         System.out.println("3. Klientfeil");
-
-        System.out.print("Valg: ");
+        System.out.println();
+        System.out.print("Skriv et tall for å velge: ");
         String valg = scanner.nextLine();
 
 
@@ -108,8 +110,10 @@ public class RegistratorConsoleView {
                 return;
         }
 
+        System.out.println();
         System.out.print("Beskrivelse av henvendelse: ");
         String hendelseInput = scanner.nextLine();
+        System.out.println();
 
         try {
             Melding respons = kontroller.opprettHenvendelse(hendelseInput, type);

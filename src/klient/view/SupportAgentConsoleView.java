@@ -23,7 +23,7 @@ public class SupportAgentConsoleView {
         // Registrerer navn på agent
         String navn;
         while (true) {
-            System.out.println("Vennligst skriv inn navnet ditt:");
+            System.out.print("Vennligst skriv inn navnet ditt: ");
             navn = scanner.nextLine();
             if (!navn.isBlank()) {
                 break;
@@ -48,7 +48,7 @@ public class SupportAgentConsoleView {
             System.out.println("1. Hent en ny henvendelse");
             System.out.println("2. Avslutt");
             System.out.println();
-            System.out.println("Skriv et tall for å velge: ");
+            System.out.print("Skriv et tall for å velge: ");
 
             String valg = scanner.nextLine();
 
@@ -72,20 +72,21 @@ public class SupportAgentConsoleView {
         try {
             Melding respons = kontroller.hentHenvendelse();
             Henvendelse innhold = (Henvendelse) respons.getInnhold();
+            System.out.println("\n" + "Henvendelse ID: " + innhold.getHenvendelseID() + "\n"
+                               + "Henvendelse beskrivelse: " + innhold.getHenvendelseInnhold() + "\n");
+            
+            // "Jobber" i 3 sekunder
             BehandleHenvendelse behandleHenvendelse = new BehandleHenvendelse(innhold);
             behandleHenvendelse.behandleHenvendelse();
-
-            System.out.println("Henvendelse ID: " + innhold.getHenvendelseID() + "\n"
-                               + innhold.getHenvendelseInnhold() + "\n");
             
-            System.out.println("Fullfør?" + "\n"
+            System.out.println();
+            System.out.print("Fullfør?" + "\n" + "\n"
                                + "1. Ja" + "\n"
-                               + "2. Nei" + "\n"
-                               + "Skriv 1 eller 2: ");
+                               + "2. Nei" + "\n" + "\n"
+                               + "Skriv et tall for å velge: ");
             String valg = scanner.nextLine();
             if (valg.equals("1")) {
                 fullførHenvendelse(innhold.getHenvendelseID());
-                System.out.println("Henvendelsen er fullført");
             } else if (valg.equals("2")) {
                 fullførHenvendelse(innhold.getHenvendelseID());
                 System.out.println("Dette er ikke implementert enda. Henvendelsen settes som fullført");
