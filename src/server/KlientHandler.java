@@ -9,6 +9,7 @@ import common.enums.SvarKode;
 import java.io.*;
 import java.net.Socket;
 
+//Klasse som styrer kommunikasjonen mellom Klient og ServerMain
 public class KlientHandler implements Runnable {
     private final Socket socket;
     private final ServerMain server;
@@ -36,6 +37,7 @@ public class KlientHandler implements Runnable {
         }
     }
 
+    //switch på forespørsler som kommer fra Klient
     private Melding håndterForespørsel(Melding forespørsel) throws InterruptedException {
         try {
 

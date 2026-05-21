@@ -2,6 +2,7 @@ package klient.controller;
 
 import common.Henvendelse;
 
+//Klasse som skal "simulere" at en SupportAgent behandler en Henvendelse
 public class BehandleHenvendelse {
     private final Henvendelse henvendelse;
 
