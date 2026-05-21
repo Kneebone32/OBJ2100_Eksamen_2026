@@ -54,4 +54,8 @@ public class Henvendelse implements Serializable {
     public void setType(HenvendelseType type) {
         this.type = type;
     }
+
+    public LocalDateTime getTidsstempel() {
+        return tidsstempel;
+    }
 }
